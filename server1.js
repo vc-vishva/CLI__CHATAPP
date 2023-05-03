@@ -1,13 +1,18 @@
 import net from "net";
+import inquirer from "inquirer";
 
 const server = net.createServer((socket) => {
   socket.on("data", (data) => {
     console.log(`Client: ${data.toString().trim()}`);
-    const name = data.toString().trim();
-    //
-
-    socket.write(`${name}`);
-    socket.end();
+    inquirer
+      .prompt({
+        type: "input",
+        name: "message",
+        message: "Server: ",
+      })
+      .then((answer) => {
+        socket.write(`${answer.message}\n`);
+      });
   });
 });
 
