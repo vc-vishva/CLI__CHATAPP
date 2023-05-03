@@ -1,22 +1,34 @@
-// const net = require("net");
 import net from "net";
 import inquirer from "inquirer";
+
 const client = new net.Socket();
-client.connect({ host: "localhost", port: 8080 }, () => {
+
+client.connect(8080, "localhost", () => {
+  console.log("Connected to server");
   inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "message",
-        message: "Enter a message:",
-      },
-    ])
-    .then((answers) => {
-      console.log(` msgg- ${answers.message}`);
+    .prompt({
+      type: "input",
+      name: "message",
+      message: "Client: ",
+    })
+    .then((answer) => {
+      client.write(`${answer.message}\n`);
     });
 });
-console.log("this is should work 2");
-// client.on("data", (data) => {
-//   console.log("this is should work");
-//   console.log(data.toString());
+
+client.on("data", (data) => {
+  console.log(`Server: ${data.toString().trim()}`);
+  inquirer
+    .prompt({
+      type: "input",
+      name: "message",
+      message: "Client: ",
+    })
+    .then((answer) => {
+      client.write(`${answer.message}\n`);
+    });
+});
+
+// client.on("close", () => {
+//   console.log("Connection closed");
 // });
