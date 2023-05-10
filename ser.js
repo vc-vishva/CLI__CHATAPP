@@ -7,7 +7,7 @@ const server = net.createServer((socket) => {
 
   socket.on("data", (data) => {
     try {
-      const { clientId, message } = JSON.parse(data.toString().trim());
+      const { clientId, message } = JSON.parse(data.toString());
       console.log(`${clientId}: ${message}`);
       sockets.forEach((s) => {
         if (s !== socket) {
@@ -25,11 +25,9 @@ const server = net.createServer((socket) => {
     sockets.splice(sockets.indexOf(socket), 1);
   });
 
-//   socket.on("error", (error) => {
-//     console.error(`Error: ${error.message}`);
-//     socket.destroy();
+
   });
-// });
+
 
 server.listen(8080, () => {
   console.log("Server listening on port 8080");

@@ -37,8 +37,6 @@ client.on("data", (data) => {
   }
 });
 
-client.on("error", (error) => {
-  console.error(`Error: ${error.message}`);
-  client.destroy();
-});
+
+
 
